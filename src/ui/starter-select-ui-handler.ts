@@ -1048,14 +1048,23 @@ export default class StarterSelectUiHandler extends MessageUiHandler {
               success = true;
             }
             break;
-          case Button.UP:
-            if (row)
-              success = this.setCursor(this.cursor - 9);
-            break;
-          case Button.DOWN:
-            if (row < rows - 2 || (row < rows - 1 && this.cursor % 9 <= (genStarters - 1) % 9))
-              success = this.setCursor(this.cursor + 9);
-            break;
+            case Button.UP:
+              if (row){
+                  success = this.setCursor(this.cursor - 9);
+              }
+              else{
+                  let findTruePosition = genStarters + (9 - (genStarters % 9 ) - (9 - this.cursor))  
+                  success = this.setCursor(findTruePosition >= genStarters ? findTruePosition - 9 : findTruePosition);
+              }
+              break;
+            case Button.DOWN:
+              if (row < rows - 2 || (row < rows - 1 && this.cursor % 9 <= (genStarters - 1) % 9)){
+                success = this.setCursor(this.cursor + 9);
+              }
+              else{
+                success = this.setCursor(this.cursor % 9);
+              }
+              break;
           case Button.LEFT:
             if (this.cursor % 9)
               success = this.setCursor(this.cursor - 1);
